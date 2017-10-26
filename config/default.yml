@@ -1,0 +1,10 @@
+secret: 'taco'
+expiration: 3600
+
+database:
+    dialect: 'postgres'
+    host: 'localhost'
+    port: 5432
+    username: 'test'
+    password: 'test'
+    database: 'test'
