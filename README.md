@@ -49,6 +49,6 @@ $ npm start
 
 ## Contributors to this seed
 
-[<img alt="Daniel Billingslea" src="https://avatars1.githubusercontent.com/u/3837156?s=460" width="117">](https://github.com/mrdannyhawk) |[<img alt="John Pinkster" src="https://avatars1.githubusercontent.com/u/5350861?v=3&s=460" width="117">](https://github.com/jpinkster)
-:---: |:---: |:---:|:---:|:---: |
+[<img alt="Daniel Billingslea" src="https://avatars1.githubusercontent.com/u/3837156?s=460" width="117">](https://github.com/mrdannyhawk) |[<img alt="John Pinkster" src="https://avatars1.githubusercontent.com/u/5350861?v=3&s=460" width="117">](https://github.com/jpinkster)| 
+:---: |:---: |
 [Daniel Billingslea](https://github.com/mrdannyhawk) |[John Pinkster](https://github.com/jpinkster)|
