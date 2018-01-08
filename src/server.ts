@@ -11,8 +11,8 @@ import * as cookieParser from 'cookie-parser';
 import validator = require('express-validator');
 
 // app
-import { ApplicationModule } from './modules/app.module';
-import { ValidationPipe } from './modules/common/pipes/validation.pipe';
+import { ApplicationModule } from './app/app.module';
+import { ValidationPipe } from './app/modules/common/pipes/validation.pipe';
 
 async function bootstrap() {
     const app = await NestFactory.create(ApplicationModule);
@@ -26,6 +26,6 @@ async function bootstrap() {
     app.use(bodyParser.json({ limit: '50mb' }));
     app.use(bodyParser.urlencoded({ extended: false }));
 
-    await app.listen(3001);
+    await app.listen(config.get<number>('port'));
 }
 bootstrap();

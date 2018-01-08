@@ -1,4 +1,5 @@
 secret: 'taco'
+port: 8080
 expiration: 3600
 
 database:

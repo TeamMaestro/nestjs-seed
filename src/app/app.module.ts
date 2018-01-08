@@ -1,16 +1,16 @@
 // lib
 import * as passport from 'passport';
 import { Module, NestModule, MiddlewaresConsumer } from '@nestjs/common';
-import { AuthenticationModule } from './authentication/authentication.module';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
 // app
-import { UserModule } from './users/user.module';
-import { UserController } from './users/user.controller';
+import { UserModule } from './modules/users/user.module';
+import { UserController } from './modules/users/user.controller';
 
 @Module({
     modules: [
         AuthenticationModule,
         UserModule
-    ],
+    ]
 })
 export class ApplicationModule implements NestModule {
     configure(consumer: MiddlewaresConsumer): void {

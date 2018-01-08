@@ -14,6 +14,34 @@ import { HttpExceptionFilter } from '../common/filters/http-exception.filter';
 export class UserController {
     constructor(private readonly usersService: UserService) { }
 
+    /**
+     * @api {get} /api/v1/users Users fetch all
+     * @apiVersion 0.0.1
+     * @apiName UsersFetchall
+     * @apiGroup Users
+     *
+     * @apiPermission none
+     *
+     * @apiSuccess {String} firstName The user's first name
+     * @apiSuccess {String} email The user's email
+     * @apiSuccess {Number} age The user's age
+     *
+     * @apiSuccessExample Success-Response:
+     *     HTTP 200 OK
+     *     {
+     *       "firstName": "John",
+     *       "email": "john@doe.com",
+     *       "age": 25
+     *     }
+     *
+     * @apiError UserNotFound The id of the User was not found.
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP 400 Bad Request
+     *     {
+     *       "error": "UserNotFound"
+     *     }
+     */
     @Post()
     async create( @Body() createUserDto: CreateUserDto) {
         await this.usersService.create(createUserDto);
