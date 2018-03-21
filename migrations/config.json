@@ -1,0 +1,10 @@
+{
+    "defaultEnv": "local",
+    "local": {
+        "driver": "pg",
+        "user": "test",
+        "password": "test",
+        "host": "localhost",
+        "database": "test"
+    }
+}

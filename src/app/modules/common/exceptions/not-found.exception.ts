@@ -1,8 +1,13 @@
-import { HttpException } from '@nestjs/core';
 import { HttpStatus } from '@nestjs/common';
 
-export class NotFoundException extends HttpException {
-    constructor() {
-        super('NotFound', HttpStatus.NOT_FOUND);
+import { PassiveException } from './passive.exception';
+
+export class NotFoundException extends PassiveException {
+    constructor(error?: any) {
+        super(
+            'NotFound',
+            HttpStatus.NOT_FOUND,
+            error
+        );
     }
 }

@@ -1,14 +1,2 @@
-require('ts-node/register');
-require('./src/server');
-
-
-
-
-
-
-
-
-
-
-
-
+'use strict'
+require('./dist/server');

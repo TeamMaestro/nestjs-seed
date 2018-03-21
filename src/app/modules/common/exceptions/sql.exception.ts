@@ -1,13 +1,14 @@
-import { HttpException } from '@nestjs/core';
-import { HttpStatus } from '@nestjs/common';
 import * as Sequelize from 'sequelize';
+import { HttpStatus } from '@nestjs/common';
 
-export class SQLException extends HttpException {
+import { LoggedException } from './logged.exception';
+
+export class SQLException extends LoggedException {
     constructor(error: Sequelize.BaseError) {
-
-        // tslint:disable-next-line:no-console
-        console.error(error);
-
-        super('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
+        super(
+            'Internal Server Error - SQL',
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            error
+        );
     }
 }

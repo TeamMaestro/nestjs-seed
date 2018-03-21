@@ -1,6 +1,5 @@
-import { HttpException } from '@nestjs/core';
-import { PipeTransform, Pipe, ArgumentMetadata, HttpStatus } from '@nestjs/common';
-import { IsUUID, Validator } from 'class-validator';
+import { PipeTransform, Pipe, ArgumentMetadata, HttpStatus, HttpException } from '@nestjs/common';
+import { Validator } from 'class-validator';
 
 @Pipe()
 export class IdentityValidationPipe implements PipeTransform<string> {
@@ -11,5 +10,4 @@ export class IdentityValidationPipe implements PipeTransform<string> {
         }
         return value;
     }
-
 }

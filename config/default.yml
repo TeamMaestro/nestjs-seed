@@ -1,5 +1,6 @@
-secret: 'taco'
 port: 8080
+
+secret: 'taco'
 expiration: 3600
 
 database:
@@ -9,3 +10,23 @@ database:
     username: 'test'
     password: 'test'
     database: 'test'
+
+session:
+    name: 'nestjs-seed'
+    secret: 'defaultsecret'
+    resave: false
+    saveUninitialized: false
+    proxy: true
+    cookie:
+        httpOnly: true
+        maxAge: 3600000
+        secure: false
+
+redis:
+    host: 'localhost'
+
+logger:
+    level: debug
+
+application:
+    name: 'NestSeed'
