@@ -1,4 +1,13 @@
 node_modules
-dist
+dist/**/*
+server/dist
+src/**/*.js
+src/**/*.js.map
+config/local*.yml
+run
+*.log
+artifacts/**/*
+coverage/**/*
+.nyc_output/*
 docs
 .DS_STORE

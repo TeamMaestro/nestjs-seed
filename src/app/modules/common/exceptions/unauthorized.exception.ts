@@ -1,8 +1,13 @@
-import { HttpException } from '@nestjs/core';
 import { HttpStatus } from '@nestjs/common';
 
-export class UnauthorizedException extends HttpException {
-    constructor() {
-        super('Unauthorized', HttpStatus.UNAUTHORIZED);
+import { PassiveException } from './passive.exception';
+
+export class UnauthorizedException extends PassiveException {
+    constructor(error?: any) {
+        super(
+            'Unauthorized',
+            HttpStatus.UNAUTHORIZED,
+            error
+        );
     }
 }
