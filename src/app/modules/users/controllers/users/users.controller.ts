@@ -8,7 +8,7 @@ import { IdentityValidationPipe } from '../../../common/pipes';
 import { IsLoggedInGuard } from '../../../common/guards';
 import { User as UserDecorator } from '../../../common/decorators';
 
-@Controller('users')
+@Controller('v1/users')
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(IsLoggedInGuard)
 export class UsersController {
@@ -42,14 +42,14 @@ export class UsersController {
      *       "error": "UserNotFound"
      *     }
      */
-    @Post()
-    async create(@Body() createUserDto: CreateUserDto): Promise<{ identity: string }> {
-        return await this.usersService.create(createUserDto);
-    }
-
     @Get()
     async fetchAll(): Promise<User[]> {
         return await this.usersService.fetchAll();
+    }
+
+    @Post()
+    async create(@Body() createUserDto: CreateUserDto): Promise<{ identity: string }> {
+        return await this.usersService.create(createUserDto);
     }
 
     @Get(':identity')

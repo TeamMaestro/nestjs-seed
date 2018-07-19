@@ -5,7 +5,7 @@ import { UserLoginDto } from '../../dtos/user-login.dto';
 import { CreateUserDto, UsersService } from '../../../users';
 import { LoggingInterceptor } from '../../../core';
 
-@Controller('auth')
+@Controller('v1/auth')
 @UseInterceptors(LoggingInterceptor)
 export class AuthenticationController {
     constructor(

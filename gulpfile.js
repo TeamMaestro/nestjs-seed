@@ -1,12 +1,12 @@
-import * as gulp from 'gulp';
-import tslint from 'gulp-tslint';
-import * as nodemon from 'gulp-nodemon';
-import * as tsc from 'gulp-typescript';
+var gulp = require('gulp');
+var tslint = require('gulp-tslint');
+var nodemon = require('gulp-nodemon');
+var tsc = require('gulp-typescript');
 
 gulp.task('start', ['tslint', 'nodemon']);
 
 gulp.task('nodemon', () => {
-    gulp.run('tslint');
+    gulp.run('tslint')
     nodemon({
         scripts: './index.js',
         tasks: ['tslint', 'compile']
@@ -18,6 +18,9 @@ gulp.task('compile', () => {
     const result = tsProject.src().pipe(tsProject());
 
     result.js.pipe(gulp.dest('dist'));
+
+    return gulp.src('./src/**/*.jade')
+        .pipe(gulp.dest('dist'))
 });
 
 gulp.task('tslint', () =>
