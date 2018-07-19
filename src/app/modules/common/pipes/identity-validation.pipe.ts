@@ -1,7 +1,7 @@
-import { PipeTransform, Pipe, ArgumentMetadata, HttpStatus, HttpException } from '@nestjs/common';
+import { PipeTransform, Injectable, ArgumentMetadata, HttpStatus, HttpException } from '@nestjs/common';
 import { Validator } from 'class-validator';
 
-@Pipe()
+@Injectable()
 export class IdentityValidationPipe implements PipeTransform<string> {
     async transform(value: string, metadata: ArgumentMetadata) {
         const validator = new Validator();

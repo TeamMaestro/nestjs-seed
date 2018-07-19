@@ -1,4 +1,4 @@
-import { Component, Inject } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'sequelize-typescript';
 import { Profile } from 'passport-google-oauth';
 
@@ -7,7 +7,7 @@ import { CreateUserDto } from '../../dtos/create-user.dto';
 import { User } from '../../entities/user.entity';
 import { SQLException } from '../../../common/exceptions';
 
-@Component()
+@Injectable()
 export class UsersService {
     constructor(
         @Inject(ApplicationTokens.UserRepositoryToken)

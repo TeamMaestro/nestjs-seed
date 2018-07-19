@@ -1,11 +1,13 @@
 import * as Raven from 'raven';
-import * as express from 'express';
 import * as config from 'config';
-import { ExceptionFilter, Catch } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
+import { Response } from 'express';
+
 
 @Catch(Error)
 export class UncaughtExceptionFilter implements ExceptionFilter {
-    catch(exception: Error, response: express.Response) {
+    catch(exception: Error, host: ArgumentsHost) {
+        const res: Response = host.switchToHttp().getResponse();
         const statusCode = 500;
 
         const message = `${config.get<string>('application.name')}_INTERNAL_ERROR`;
@@ -19,7 +21,7 @@ export class UncaughtExceptionFilter implements ExceptionFilter {
             console.error(exception.stack);
         }
 
-        response.status(statusCode).json({
+        res.status(statusCode).json({
             message,
             statusCode,
         });

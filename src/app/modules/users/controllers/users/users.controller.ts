@@ -6,6 +6,7 @@ import { User } from '../../entities/user.entity';
 import { LoggingInterceptor } from '../../../core';
 import { IdentityValidationPipe } from '../../../common/pipes';
 import { IsLoggedInGuard } from '../../../common/guards';
+import { User as UserDecorator } from '../../../common/decorators';
 
 @Controller('users')
 @UseInterceptors(LoggingInterceptor)
