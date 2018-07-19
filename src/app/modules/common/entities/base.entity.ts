@@ -7,7 +7,7 @@ import { Table, Column, Model, Unique, Default } from 'sequelize-typescript';
     underscored: true,
     freezeTableName: true
 })
-export class BaseEntity<i> extends Model<i> {
+export class BaseEntity<i> extends Model<BaseEntity<i>> {
     @Unique
     @Default(Sequelize.UUIDV4)
     @Column({

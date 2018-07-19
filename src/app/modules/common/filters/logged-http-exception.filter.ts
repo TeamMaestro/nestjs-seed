@@ -3,7 +3,6 @@ import * as config from 'config';
 import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
 import { Response } from 'express';
 
-
 import { LoggedException } from '../exceptions/logged.exception';
 
 @Catch(LoggedException)

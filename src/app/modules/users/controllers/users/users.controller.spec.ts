@@ -32,7 +32,7 @@ describe('UsersController', () => {
             const result = ['test'];
             jest.spyOn(usersService, 'fetchAll').mockImplementation(() => result);
 
-            expect(await usersController.fetchAll({})).toBe(result);
+            expect(await usersController.fetchAll()).toBe(result);
         });
     });
 });

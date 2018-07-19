@@ -36,9 +36,9 @@ async function bootstrap() {
     // Error handlers
     const commonModule = app.select(CommonModule);
     app.useGlobalFilters(
+        commonModule.get(UncaughtExceptionFilter),
         commonModule.get(PassiveHttpExceptionFilter),
-        commonModule.get(LoggedHttpExceptionFilter),
-        commonModule.get(UncaughtExceptionFilter)
+        commonModule.get(LoggedHttpExceptionFilter)
     );
 
     // Global nest setup
