@@ -1,12 +1,14 @@
-import { PipeTransform, Injectable, ArgumentMetadata, HttpStatus, HttpException } from '@nestjs/common';
+import { PipeTransform, Injectable } from '@nestjs/common';
 import { Validator } from 'class-validator';
+
+import { ValidationException } from '../exceptions';
 
 @Injectable()
 export class IdentityValidationPipe implements PipeTransform<string> {
-    async transform(value: string, metadata: ArgumentMetadata) {
+    async transform(value: string) {
         const validator = new Validator();
         if (!validator.isUUID(value)) {
-            throw new HttpException('Validation failed', HttpStatus.BAD_REQUEST);
+            throw new ValidationException('invalid uuid in url param');
         }
         return value;
     }

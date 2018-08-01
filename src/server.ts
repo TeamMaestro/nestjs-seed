@@ -10,7 +10,7 @@ import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 
 // app
-import { redisStore } from './redis';
+import { RedisModule } from './app/modules/core/redis/redis.module';
 import { ApplicationModule } from './app/app.module';
 import { ValidationPipe } from './app/modules/common/pipes/validation.pipe';
 import { CommonModule } from './app/modules/common/common.module';
@@ -19,6 +19,7 @@ import {
     LoggedHttpExceptionFilter,
     UncaughtExceptionFilter
 } from './app/modules/common/filters';
+import { ApplicationTokens } from './app/application-tokens.const';
 
 async function bootstrap() {
     const app = await NestFactory.create(ApplicationModule);
@@ -53,17 +54,16 @@ async function bootstrap() {
     app.use(bodyParser.urlencoded({ extended: false }));
 
     // Redis
+    const redisModule = app.select(RedisModule);
+
     app.use(cookieParser(config.get<string>('session.secret')));
     app.use(session(_.merge({
-        store: redisStore
+        store: redisModule.get(ApplicationTokens.RedisStoreToken)
     }, config.get<session.SessionOptions>('session'))));
 
     // Passport
     app.use(passport.initialize());
     app.use(passport.session());
-
-    passport.serializeUser((user, done) => done(null, user));
-    passport.deserializeUser((user, done) => done(null, user));
 
     // Start server
     try {

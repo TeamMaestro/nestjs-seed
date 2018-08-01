@@ -6,7 +6,6 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { JWTPayload } from '../interfaces/jwt-payload.interface';
 import { UsersService, AuthorizedUser } from '../../users';
-import { UnauthorizedException } from '../../common/exceptions/unauthorized.exception';
 
 @Injectable()
 export class JwtStrategy extends Strategy {
@@ -23,15 +22,19 @@ export class JwtStrategy extends Strategy {
     }
 
     public async verify(req: express.Request, payload: JWTPayload, done: any) {
-        if (!payload || !payload.u_id) {
-            throw new UnauthorizedException();
+        if (!payload) {
+            return done('No auth t  oken', null);
+        }
+
+        if (!payload.u_id) {
+            return done('invalid token payload', null);
         }
 
         const user = await this.usersService.fetchByIdentity(payload.u_id);
         if (!user) {
-            throw new UnauthorizedException();
+            return done('invalid u_id on token payload', null);
         }
 
-        done(null, new AuthorizedUser(user));
+        return done(null, new AuthorizedUser(user));
     }
 }

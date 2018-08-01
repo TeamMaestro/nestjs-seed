@@ -1,12 +1,11 @@
-import * as Sequelize from 'sequelize';
 import { HttpStatus } from '@nestjs/common';
 
 import { LoggedException } from './logged.exception';
 
-export class SQLException extends LoggedException {
-    constructor(error: Sequelize.BaseError) {
+export class RedisException extends LoggedException {
+    constructor(error?: any) {
         super(
-            'Internal server error with database',
+            'Internal server error with redis',
             HttpStatus.INTERNAL_SERVER_ERROR,
             error
         );

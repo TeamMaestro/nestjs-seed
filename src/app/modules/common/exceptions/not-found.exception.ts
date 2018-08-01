@@ -3,11 +3,10 @@ import { HttpStatus } from '@nestjs/common';
 import { PassiveException } from './passive.exception';
 
 export class NotFoundException extends PassiveException {
-    constructor(error?: any) {
+    constructor(message?: string) {
         super(
-            'NotFound',
-            HttpStatus.NOT_FOUND,
-            error
+            message || 'Item not found',
+            HttpStatus.NOT_FOUND
         );
     }
 }

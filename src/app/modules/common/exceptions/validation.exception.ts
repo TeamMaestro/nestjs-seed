@@ -3,11 +3,10 @@ import { HttpStatus } from '@nestjs/common';
 import { PassiveException } from './passive.exception';
 
 export class ValidationException extends PassiveException {
-    constructor(error?: any) {
+    constructor(message?: string) {
         super(
-            'Unauthorized',
-            HttpStatus.BAD_REQUEST,
-            error
+            message || 'Request format is invalid',
+            HttpStatus.BAD_REQUEST
         );
     }
 }

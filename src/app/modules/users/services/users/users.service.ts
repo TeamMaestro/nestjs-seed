@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Model } from 'sequelize-typescript';
 import { Profile } from 'passport-google-oauth';
 
 import { ApplicationTokens } from '../../../../application-tokens.const';

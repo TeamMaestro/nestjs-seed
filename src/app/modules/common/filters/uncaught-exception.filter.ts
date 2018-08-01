@@ -1,15 +1,18 @@
 import * as Raven from 'raven';
-import * as config from 'config';
-import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 
 @Catch(Error)
 export class UncaughtExceptionFilter implements ExceptionFilter {
-    catch(exception: Error, host: ArgumentsHost) {
+    catch(exception: any, host: ArgumentsHost) {
         const res: Response = host.switchToHttp().getResponse();
-        const statusCode = 500;
 
-        const message = `${config.get<string>('application.name')}_INTERNAL_ERROR`;
+        // use 405 instead of 403 do to cloudfront's handling of forbidden
+        if (exception.status === HttpStatus.FORBIDDEN) {
+            exception.status = HttpStatus.METHOD_NOT_ALLOWED;
+        }
+
+        const statusCode = exception.status || 500;
 
         // Handle Stack Traces
         if (process.env.DEPLOYMENT) {
@@ -20,9 +23,18 @@ export class UncaughtExceptionFilter implements ExceptionFilter {
             console.error(exception.stack);
         }
 
+        let message;
+        if (exception.message) {
+            message = exception.message.error || exception.message;
+        }
+        else {
+            message = 'There was an internal server error';
+        }
+
         res.status(statusCode).json({
-            message,
             statusCode,
+            appCode: HttpStatus[statusCode],
+            message
         });
     }
 }
