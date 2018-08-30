@@ -1,14 +1,12 @@
-import { Controller, Get, Post, Body, Param, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 
 import { CreateUserDto } from '../../dtos/create-user.dto';
 import { UsersService } from '../../services/users/users.service';
 import { User } from '../../entities/user.entity';
-import { LoggingInterceptor } from '../../../core';
 import { IdentityValidationPipe } from '../../../common/pipes';
 import { IsLoggedInGuard } from '../../../common/guards';
 
 @Controller('v1/users')
-@UseInterceptors(LoggingInterceptor)
 @UseGuards(IsLoggedInGuard)
 export class UsersController {
     constructor(private readonly usersService: UsersService) { }
