@@ -23,7 +23,7 @@
         "@nestjs/microservices": "^5.1.0",
         "@nestjs/testing": "^5.1.0",
         "@teamhive/express-http-logger": "0.0.3",
-        "@teamhive/honeyflow-express-client": "0.0.1",
+        "@teamhive/honeyflow-express-client": "0.0.3",
         "bcrypt": "^3.0.0",
         "body-parser": "^1.18.3",
         "class-transformer": "^0.1.9",

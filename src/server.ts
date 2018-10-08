@@ -70,11 +70,15 @@ async function bootstrap() {
 
     // HoneyFlow client
     app.use(new HoneyFlowClient({
-        apiKey: '', // get an apiKey for the project
+        apiKey: 'ebb58d01-08a6-42c6-a04e-b7f3516aaca1', // get an apiKey for the project
         host: 'http://localhost:8000',
         environment: process.env.NODE_ENV,
-        release: process.env.npm_package_version
-
+        release: process.env.npm_package_version,
+        ignoreEndpoints: [{
+            route: '/versions',
+            methods: ['GET']
+        }],
+        sampleRate: 1
     }).monitor());
 
     // Endpoint logging
