@@ -2,7 +2,7 @@ import { Table, Column, Sequelize } from 'sequelize-typescript';
 import { BaseEntity } from './base.entity';
 
 @Table({})
-export class CreatedByEntity<i> extends BaseEntity<i> {
+export class CreatedByEntity<i> extends BaseEntity<CreatedByEntity<i>> {
     @Column({
         type: Sequelize.INTEGER,
         field: 'created_by_id'

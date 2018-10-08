@@ -1,13 +1,14 @@
 import * as Raven from 'raven';
-import * as express from 'express';
-import * as config from 'config';
-import { ExceptionFilter, Catch } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpStatus } from '@nestjs/common';
+import { Response } from 'express';
 
 import { LoggedException } from '../exceptions/logged.exception';
 
 @Catch(LoggedException)
 export class LoggedHttpExceptionFilter implements ExceptionFilter {
-    catch(exception: LoggedException, response: express.Response) {
+    catch(exception: LoggedException, host: ArgumentsHost) {
+        const res: Response = host.switchToHttp().getResponse();
+
         // Handle Stack Traces
         if (process.env.DEPLOYMENT) {
             Raven.captureException(exception.error);
@@ -17,14 +18,11 @@ export class LoggedHttpExceptionFilter implements ExceptionFilter {
             console.error(exception.error);
         }
 
-        const appName = config.get<string>('application.name').toUpperCase();
-        const exceptionResponse = String(exception.getResponse()).toUpperCase();
-        const message = `${appName}_${exceptionResponse}_INVALID`;
-
         const statusCode = exception.getStatus() || 500;
-        response.status(statusCode).json({
-            message,
-            statusCode
+        res.status(statusCode).json({
+            statusCode,
+            appCode: HttpStatus[statusCode],
+            message: exception.getResponse()
         });
     }
 }

@@ -1,11 +1,11 @@
 import * as config from 'config';
 import * as passport from 'passport';
-import { Component } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { OAuth2Strategy, Profile } from 'passport-google-oauth';
 
 import { UsersService } from '../../users';
 
-@Component()
+@Injectable()
 export class GoogleStrategy extends OAuth2Strategy {
     constructor(private readonly usersService: UsersService) {
         super(

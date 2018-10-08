@@ -4,7 +4,7 @@ import { PassiveHttpExceptionFilter } from './filters/passive-http-exception.fil
 import { UncaughtExceptionFilter } from './filters/uncaught-exception.filter';
 
 @Module({
-    components: [
+    providers: [
         LoggedHttpExceptionFilter,
         PassiveHttpExceptionFilter,
         UncaughtExceptionFilter

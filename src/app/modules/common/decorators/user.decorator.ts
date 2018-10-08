@@ -1,6 +1,6 @@
-import { createRouteParamDecorator } from '@nestjs/common';
-import { Profile } from 'passport';
+import { createParamDecorator } from '@nestjs/common';
+import { AuthorizedUser } from '../../users';
 
-export const User = createRouteParamDecorator((data, req): Profile => {
-    return req.user || {} as Profile;
+export const User = createParamDecorator((_data, req): AuthorizedUser => {
+    return req.user || {} as AuthorizedUser;
 });

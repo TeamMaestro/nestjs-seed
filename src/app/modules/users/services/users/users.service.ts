@@ -1,5 +1,4 @@
-import { Component, Inject } from '@nestjs/common';
-import { Model } from 'sequelize-typescript';
+import { Injectable, Inject } from '@nestjs/common';
 import { Profile } from 'passport-google-oauth';
 
 import { ApplicationTokens } from '../../../../application-tokens.const';
@@ -7,16 +6,16 @@ import { CreateUserDto } from '../../dtos/create-user.dto';
 import { User } from '../../entities/user.entity';
 import { SQLException } from '../../../common/exceptions';
 
-@Component()
+@Injectable()
 export class UsersService {
     constructor(
         @Inject(ApplicationTokens.UserRepositoryToken)
-        private readonly userRepository: typeof Model
+        private readonly userRepository: typeof User
     ) {}
 
     async create(createUserDto: CreateUserDto): Promise<{ identity: string }> {
         try {
-            const user = await this.userRepository.create<User>(createUserDto);
+            const user = await this.userRepository.create(createUserDto);
             return { identity: user.identity };
         }
         catch (error) {
@@ -26,7 +25,7 @@ export class UsersService {
 
     async fetchAll(): Promise<User[]> {
         try {
-            return await this.userRepository.findAll<User>();
+            return await this.userRepository.findAll();
         }
         catch (error) {
             throw new SQLException(error);
@@ -35,7 +34,7 @@ export class UsersService {
 
     async fetchByEmail(email: string): Promise<User> {
         try {
-            return await this.userRepository.findOne<User>({ where: { email } });
+            return await this.userRepository.findOne({ where: { email } });
         }
         catch (error) {
             throw new SQLException(error);
@@ -44,7 +43,7 @@ export class UsersService {
 
     async fetchByIdentity(identity: string): Promise<User> {
         try {
-            return await this.userRepository.findOne<User>({ where: { identity } });
+            return await this.userRepository.findOne({ where: { identity } });
         }
         catch (error) {
             throw new SQLException(error);
@@ -53,7 +52,7 @@ export class UsersService {
 
     async fetchFromGoogle(profile: Profile): Promise<User> {
         try {
-            return await this.userRepository.findOne<User>({
+            return await this.userRepository.findOne({
                 where: {
                     provider: profile.provider,
                     providerId: profile.id,

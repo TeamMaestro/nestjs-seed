@@ -6,13 +6,13 @@ import { UsersProviders } from './providers/users.providers';
 import { CoreModule } from '../core';
 
 @Module({
-    modules: [
+    imports: [
         CoreModule
     ],
     controllers: [
         UsersController
     ],
-    components: [
+    providers: [
         UsersService,
         ...UsersProviders,
     ],

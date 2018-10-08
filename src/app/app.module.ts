@@ -4,11 +4,13 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
 import { UsersModule } from './modules/users';
 import { CoreModule } from './modules/core';
 import { CommonModule } from './modules/common/common.module';
+import { ConfigurationModule } from './modules/configuration/configuration.module';
 
 @Module({
-    modules: [
+    imports: [
         CommonModule,
         CoreModule,
+        ConfigurationModule,
         AuthenticationModule,
         UsersModule
     ]

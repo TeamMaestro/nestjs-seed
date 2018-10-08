@@ -1,24 +1,29 @@
 import * as passport from 'passport';
-import { Guard, CanActivate } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 
 import { AuthorizedUser } from '../../users';
 import { UnauthorizedException } from '../exceptions';
 
-@Guard()
+@Injectable()
 export class IsLoggedInGuard implements CanActivate {
-    async canActivate(data: any): Promise<boolean> {
-        const isAuthenticated = await new Promise<boolean>((resolve: any) => {
-            passport.authenticate('jwt', { session: false }, (error: any, user: AuthorizedUser) => {
-                if (error || !user) {
-                    return resolve(false);
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+        const req = context.switchToHttp().getRequest();
+        const res = context.switchToHttp().getResponse();
+
+        const authErrorMessage = await new Promise<string>((resolve: any) => {
+            passport.authenticate('jwt', { session: false }, (customError: any, user: AuthorizedUser, passportError: any) => {
+                if (customError || !user || passportError) {
+                    return resolve(customError || passportError.message);
                 }
 
-                return resolve(true);
-            })(data.res.req, data.res, data.next);
+                req.user = user;
+
+                return resolve('NO_ERROR');
+            })(req, res, req.next);
         });
 
-        if (!isAuthenticated) {
-            throw new UnauthorizedException();
+        if (authErrorMessage !== 'NO_ERROR') {
+            throw new UnauthorizedException(authErrorMessage);
         }
         return true;
     }

@@ -1,13 +1,13 @@
 import * as config from 'config';
 import * as jwt from 'jsonwebtoken';
-import { Component } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { UserLoginDto } from '../../dtos/user-login.dto';
 import { UsersService, User } from '../../../users';
 import { UnauthorizedException } from '../../../common/exceptions';
 import { JWTToken } from '../../interfaces/jwt-token.interface';
 
-@Component()
+@Injectable()
 export class AuthenticationService {
     constructor(private readonly usersService: UsersService) { }
 

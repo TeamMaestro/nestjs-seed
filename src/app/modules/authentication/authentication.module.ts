@@ -7,16 +7,16 @@ import { UsersModule } from '../users';
 import { CoreModule } from '../core';
 
 @Module({
-    modules: [
+    imports: [
         CoreModule,
         UsersModule
-    ],
-    components: [
-        AuthenticationService,
-        JwtStrategy
     ],
     controllers: [
         AuthenticationController
     ],
+    providers: [
+        AuthenticationService,
+        JwtStrategy
+    ]
 })
 export class AuthenticationModule { }
