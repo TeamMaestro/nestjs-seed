@@ -12,10 +12,7 @@ authentication:
     authenticationRoute: '/authentication'
     errorRoute: '/authentication?error='
     passport:
-        jwt:
-            strategy: 'JwtStrategy'
         google:
-            strategy: 'GoogleStrategy'
             clientId: clientId
             secret: secret
             authorizedDomain: meetmaestro.com

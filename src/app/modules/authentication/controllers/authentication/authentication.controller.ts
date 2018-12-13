@@ -32,11 +32,6 @@ export class AuthenticationController {
         // initiates the Google OAuth2 login flow
     }
 
-    /**
-     *
-     * @param _res -- need the response object so that nest doesn't automatically return,
-     *               setting the headers for a second time, after passport middleware did
-     */
     @UseGuards(AuthGuard(PassportStrategyTokens.GoogleStrategy))
     @Get('auth/google/callback')
     async googleCallback(
