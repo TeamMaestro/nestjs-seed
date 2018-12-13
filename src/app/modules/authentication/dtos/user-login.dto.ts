@@ -2,8 +2,13 @@ import { IsString } from 'class-validator';
 
 export class UserLoginDto {
     @IsString()
-    readonly email: string;
+    email: string;
 
     @IsString()
-    readonly password: string;
+    password: string;
+
+    constructor(payload = {} as UserLoginDto) {
+        this.email = payload.email;
+        this.password = payload.password;
+    }
 }

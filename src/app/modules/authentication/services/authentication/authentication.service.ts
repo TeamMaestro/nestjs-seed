@@ -1,32 +1,58 @@
+import { session } from '@local/keys';
+import { Injectable } from '@nestjs/common';
+import { TryCatch, UnauthorizedException } from '@teamhive/nestjs-common';
 import * as config from 'config';
 import * as jwt from 'jsonwebtoken';
-import { Injectable } from '@nestjs/common';
-
+import { AuthorizedUser, UserService } from '../../../user';
 import { UserLoginDto } from '../../dtos/user-login.dto';
-import { UsersService, User } from '../../../users';
-import { UnauthorizedException } from '../../../common/exceptions';
-import { JWTToken } from '../../interfaces/jwt-token.interface';
 
 @Injectable()
 export class AuthenticationService {
-    constructor(private readonly usersService: UsersService) { }
+    constructor(
+        private readonly userService: UserService) { }
 
-    async login(userCredentials: UserLoginDto): Promise<JWTToken> {
-        const user = await this.usersService.fetchByEmail(userCredentials.email);
+    @TryCatch(UnauthorizedException)
+    async login(userCredentials: UserLoginDto) {
+
+        const user = await this.userService.fetchByEmail(userCredentials.email);
+
         const isValidPassword = await user.comparePassword(userCredentials.password);
+
         if (!user || !isValidPassword) {
             throw new UnauthorizedException();
         }
-        return this.createToken(user);
+
+        return this.createTokens(user);
     }
 
-    createToken(user: User): JWTToken {
-        const expiresIn = config.get<number>('expiration');
-        const secretOrKey = config.get<string>('secret');
-        const token = jwt.sign({ u_id: user.identity }, secretOrKey, { expiresIn });
+    createTokens(user: AuthorizedUser) {
+        const accessToken = this.createAccessToken(user);
+
+        // Get expiration time in seconds
+        const accessExpiration = config.get<number>('authentication.session.accessExpiration');
+        const expirationTime = new Date(Math.floor((new Date().getTime()) + accessExpiration)).toISOString();
+
         return {
-            expires_in: expiresIn,
-            access_token: token,
+            accessToken,
+            expirationTime,
+            redisKey: `${config.get<number>('redis.keyPrefix')}${user.identity}`
         };
+    }
+
+    createAccessToken(user: AuthorizedUser) {
+        const privateKey = session.private;
+        const accessExpiration = config.get<number>('authentication.session.accessExpiration');
+
+        return jwt.sign(
+            {
+                u_id: user.identity
+            },
+            privateKey,
+            {
+                algorithm: 'RS256',
+                expiresIn: accessExpiration / 1000
+            }
+
+        );
     }
 }

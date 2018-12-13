@@ -1,7 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { VersionResponse } from '../../interfaces/version-response.interface';
-
 @Controller('v1/versions')
 export class ConfigurationController {
     /**
@@ -20,7 +18,7 @@ export class ConfigurationController {
      *     }
      */
     @Get()
-    version(): VersionResponse {
+    version() {
         return {
             version: process.env.npm_package_version
         };

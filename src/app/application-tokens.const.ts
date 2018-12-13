@@ -1,7 +1,7 @@
+import { ApplicationTokens as ApplicationTokensCommon } from '@teamhive/nestjs-common';
+
 export const ApplicationTokens = {
+    ...ApplicationTokensCommon,
     SequelizeToken: 'SequelizeToken',
-    LoggerToken: 'LoggerToken',
-    RedisStoreToken: 'RedisStoreToken',
-    RedisClientToken: 'RedisClientToken',
     UserRepositoryToken: 'UserRepositoryToken'
 };
