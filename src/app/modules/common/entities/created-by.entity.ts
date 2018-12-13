@@ -1,23 +1,15 @@
-import { Table, Column, Sequelize } from 'sequelize-typescript';
-import { BaseEntity } from './base.entity';
+import { CreatedByEntity as CreatedByCommon } from '@teamhive/sequelize-common';
+import { User } from '../../user';
+import {Table, BelongsTo, } from 'sequelize-typescript';
 
 @Table({})
-export class CreatedByEntity<i> extends BaseEntity<CreatedByEntity<i>> {
-    @Column({
-        type: Sequelize.INTEGER,
-        field: 'created_by_id'
-    })
-    createdById: number;
+export class CreatedByEntity<i> extends CreatedByCommon<CreatedByEntity<i>> {
+    @BelongsTo(() => User)
+    createdBy: User;
 
-    @Column({
-        type: Sequelize.INTEGER,
-        field: 'updated_by_id'
-    })
-    updatedById: number;
+    @BelongsTo(() => User)
+    updatedBy: User;
 
-    @Column({
-        type: Sequelize.INTEGER,
-        field: 'deleted_by_id'
-    })
-    deletedById: number;
+    @BelongsTo(() => User)
+    deletedBy: User;
 }

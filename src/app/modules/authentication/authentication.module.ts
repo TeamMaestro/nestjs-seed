@@ -1,22 +1,22 @@
 import { Module } from '@nestjs/common';
-
-import { AuthenticationService } from './services/authentication/authentication.service';
 import { AuthenticationController } from './controllers/authentication/authentication.controller';
-import { JwtStrategy } from './passport/jwt.strategy';
-import { UsersModule } from '../users';
+import { AccessTokenStrategy, GoogleStrategy } from './passport';
+import { AuthenticationService } from './services/authentication/authentication.service';
 import { CoreModule } from '../core';
+import { UserModule } from '../user';
 
 @Module({
     imports: [
         CoreModule,
-        UsersModule
+        UserModule
     ],
     controllers: [
         AuthenticationController
     ],
     providers: [
         AuthenticationService,
-        JwtStrategy
+        GoogleStrategy,
+        AccessTokenStrategy
     ]
 })
 export class AuthenticationModule { }

@@ -1,36 +1,48 @@
-import * as config from 'config';
-import * as passport from 'passport';
 import { Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ErrorHandler, RedirectException } from '@teamhive/nestjs-common';
+import * as config from 'config';
 import { OAuth2Strategy, Profile } from 'passport-google-oauth';
-
-import { UsersService } from '../../users';
+import { PassportStrategyTokens } from '../../../passport-strategy-tokens.const';
+import { AuthorizedUser } from '../../user/classes/authorized-user';
+import { UserService } from '../../user/services/user/user.service';
 
 @Injectable()
-export class GoogleStrategy extends OAuth2Strategy {
-    constructor(private readonly usersService: UsersService) {
-        super(
-            {
-                // NEED TO REGISTER WITH GOOGLE AUTH AND PUT THIS INFO IN CONFIG
-                clientID: config.get<string>('google.clientId'),
-                clientSecret: config.get<string>('google.secret'),
-                callbackURL: config.get<string>('domain') + '/api/auth/google/callback'
-            },
-            async (accessToken: string, refreshToken: string, profile: Profile, next: any) =>
-                await this.verify(accessToken, refreshToken, profile, next)
-        );
-        passport.use(this);
+export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, PassportStrategyTokens.GoogleStrategy) {
+    constructor(
+        private readonly userService: UserService,
+        private readonly errorHandler: ErrorHandler
+    ) {
+        super({
+            /*
+             * TODO: NEED TO REGISTER WITH GOOGLE AUTH AND PUT THIS INFO IN CONFIG
+             */
+            clientID: config.get<string>('authentication.passport.google.clientId'),
+            clientSecret: config.get<string>('authentication.passport.google.secret'),
+            callbackURL: `${config.get<string>('authentication.passport.google.callbackUrl')}`,
+            scope: ['profile', 'email']
+        });
     }
 
-    public async verify(_accessToken: string, _refreshToken: string, profile: Profile, next: any) {
-        if (profile._json.domain !== config.get<string>('google.authorizedDomain')) {
-            return next(null, null);
+    async validate(_accessToken: string, _refreshToken: string, profile: Profile) {
+        const failureRedirect = `${config.get<string>('authentication.errorRoute')}?google`;
+
+        if (profile._json.domain !== config.get<string>('authentication.passport.google.authorizedDomain')) {
+            throw new RedirectException(failureRedirect);
         }
 
-        const user = await this.usersService.fetchFromGoogle(profile);
-        if (!user) {
-            const createdUser = await this.usersService.createFromGoogle(profile);
-            return next(null, createdUser);
+        try {
+            let user = await this.userService.fetchFromGoogle(profile);
+
+            if (!user) {
+                user = await this.userService.createFromGoogle(profile);
+            }
+
+            return new AuthorizedUser(user);
         }
-        return next(null, user);
+        catch (error) {
+            this.errorHandler.captureException(error);
+            throw new RedirectException(failureRedirect);
+        }
     }
 }

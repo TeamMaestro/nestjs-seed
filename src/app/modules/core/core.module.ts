@@ -1,21 +1,22 @@
 import { Module } from '@nestjs/common';
-
+import { ErrorHandler, LoggerProvider, RedisProvider, RedisService } from '@teamhive/nestjs-common';
 import { DatabaseModule } from './database/database.module';
-import { LoggerProvider } from './logger/logger.provider';
-import { RedisModule } from './redis/redis.module';
 
 @Module({
     imports: [
         DatabaseModule,
-        RedisModule
     ],
     providers: [
-        LoggerProvider
+        ErrorHandler,
+        LoggerProvider,
+        RedisService,
+        RedisProvider
     ],
     exports: [
         DatabaseModule,
-        RedisModule,
-        LoggerProvider
+        ErrorHandler,
+        LoggerProvider,
+        RedisService,
     ]
 })
 export class CoreModule {}

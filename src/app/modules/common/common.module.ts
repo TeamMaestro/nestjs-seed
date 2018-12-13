@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
-import { LoggedHttpExceptionFilter } from './filters/logged-http-exception.filter';
-import { PassiveHttpExceptionFilter } from './filters/passive-http-exception.filter';
-import { UncaughtExceptionFilter } from './filters/uncaught-exception.filter';
+import { LoggedHttpExceptionFilter, PassiveHttpExceptionFilter, RedirectHttpExceptionFilter, UncaughtExceptionFilter } from '@teamhive/nestjs-common';
+import { CoreModule } from '../core';
 
 @Module({
+    imports: [
+        CoreModule
+    ],
     providers: [
         LoggedHttpExceptionFilter,
         PassiveHttpExceptionFilter,
-        UncaughtExceptionFilter
+        UncaughtExceptionFilter,
+        RedirectHttpExceptionFilter
     ]
 })
 export class CommonModule {}

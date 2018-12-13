@@ -1,2 +1,2 @@
 'use strict'
-require('./dist/server');
+require('./dist/main');
