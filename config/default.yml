@@ -1,32 +1,47 @@
-port: 8080
-
-secret: 'taco'
-expiration: 3600
-
-database:
-    dialect: 'postgres'
-    host: 'localhost'
-    port: 5432
-    username: 'test'
-    password: 'test'
-    database: 'test'
-
-session:
-    name: 'nestjs-seed'
-    secret: 'defaultsecret'
-    resave: false
-    saveUninitialized: false
-    proxy: true
-    cookie:
-        httpOnly: true
-        maxAge: 3600000
-        secure: false
-
-redis:
-    host: 'localhost'
+application:
+    name: NestSeed
+    port: 8080
+    apiPrefix: '/api'
+    bodyParserLimit: 50mb
 
 logger:
     level: debug
 
-application:
-    name: 'NestSeed'
+authentication:
+    successRoute: '/authentication/success'
+    authenticationRoute: '/authentication'
+    errorRoute: '/authentication?error='
+    passport:
+        jwt:
+            strategy: 'JwtStrategy'
+        google:
+            strategy: 'GoogleStrategy'
+            clientId: clientId
+            secret: secret
+            authorizedDomain: meetmaestro.com
+            callbackUrl: 'http://localhost:8080/api/authentication/google/callback'
+    session:
+        secret: secret
+        accessExpiration: 86400000 # ms - 24 hour
+        accessCookie:
+            name: access_token
+            options:
+                httpOnly: true
+                maxAge: 86400000 # ms - 24 hour
+                secure: true
+
+honeyflow:
+    apiKey: a6ce2f4f-fe98-4cd0-a094-46c2b5f6087b
+
+database:
+    dialect: postgres
+    host: localhost
+    port: 5432
+    database: test
+
+redis:
+    host: localhost
+    keyPrefix: 'app_'
+    expiration: 86400 # sec - 24 hour
+
+

@@ -11,14 +11,14 @@
         "target": "es2017",
         "sourceMap": true,
         "allowJs": true,
-        "outDir": "../dist"
+        "outDir": "dist"
     },
     "include": [
-        "../src/**/*"
+        "src/**/*"
     ],
     "exclude": [
-        "../node_modules",
-        "../**/*.spec.ts"
+        "node_modules",
+        "**/*.spec.ts"
     ]
 }
 

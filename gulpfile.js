@@ -14,7 +14,7 @@ gulp.task('nodemon', () => {
 });
 
 gulp.task('compile', () => {
-    const tsProject = tsc.createProject('src/tsconfig.json');
+    const tsProject = tsc.createProject('tsconfig.json');
     const result = tsProject.src().pipe(tsProject());
 
     result.js.pipe(gulp.dest('dist'));
