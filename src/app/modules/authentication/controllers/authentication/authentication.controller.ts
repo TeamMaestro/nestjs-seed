@@ -9,13 +9,12 @@ import {
     Response,
     UseGuards
     } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { RedisService, User } from '@teamhive/nestjs-common';
+import { ErrorHandler, RedirectException, RedisService, User } from '@teamhive/nestjs-common';
 import * as config from 'config';
 import * as express from 'express';
-import { PassportStrategyTokens } from '../../../../passport-strategy-tokens.const';
 import { AuthorizedUser, CreateUserDto, UserService } from '../../../user';
 import { UserLoginDto } from '../../dtos/user-login.dto';
+import { GoogleAuthGaurd } from '../../guards/google-auth.gaurd';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Controller()
@@ -23,40 +22,47 @@ export class AuthenticationController {
     constructor(
         private readonly authenticationService: AuthenticationService,
         private readonly userService: UserService,
+        private readonly errorHandler: ErrorHandler,
         private readonly redisService: RedisService
     ) {}
 
     @Get('authentication/google')
-    @UseGuards(AuthGuard(PassportStrategyTokens.GoogleStrategy))
+    @UseGuards(GoogleAuthGaurd)
     googleOAuth() {
         // initiates the Google OAuth2 login flow
     }
 
-    @UseGuards(AuthGuard(PassportStrategyTokens.GoogleStrategy))
+    @UseGuards(GoogleAuthGaurd)
     @Get('auth/google/callback')
     async googleCallback(
         @User() user: AuthorizedUser,
         @Response() res: express.Response
     ) {
-        // Generate Auth Tokens
-        const tokens = this.authenticationService.createTokens(user);
+        try {
+            // Generate Auth Tokens
+            const tokens = this.authenticationService.createTokens(user);
 
-        // Store a User Cache in Redis
-        await this.redisService.setValue(
-            tokens.redisKey,
-            user,
-            config.get<number>('redis.expiration')
-        );
+            // Store a User Cache in Redis
+            await this.redisService.setValue(
+                tokens.redisKey,
+                user,
+                config.get<number>('redis.expiration')
+            );
 
-        // Generate an Auth Cookie
-        res.cookie(
-            config.get<string>('authentication.session.accessCookie.name'),
-            tokens.accessToken,
-            config.get('authentication.session.accessCookie.options')
-        );
+            // Generate an Auth Cookie
+            res.cookie(
+                config.get<string>('authentication.session.accessCookie.name'),
+                tokens.accessToken,
+                config.get('authentication.session.accessCookie.options')
+            );
 
-        // Redirect to the Auth Success Route
-        res.redirect(`${config.get<string>('authentication.successRoute')}`);
+            // Redirect to the Auth Success Route
+            res.redirect(`${config.get<string>('authentication.successRoute')}`);
+        }
+        catch (error) {
+            this.errorHandler.captureException(error);
+            throw new RedirectException(`${config.get<string>('authentication.errorRoute')}?google`);
+        }
     }
 
     @Post('signup')

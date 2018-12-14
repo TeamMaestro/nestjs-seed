@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { ErrorHandler, RedirectException } from '@teamhive/nestjs-common';
+import { ErrorHandler, UnauthorizedException } from '@teamhive/nestjs-common';
 import * as config from 'config';
 import { OAuth2Strategy, Profile } from 'passport-google-oauth';
 import { PassportStrategyTokens } from '../../../passport-strategy-tokens.const';
@@ -25,10 +25,8 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, PassportStr
     }
 
     async validate(_accessToken: string, _refreshToken: string, profile: Profile) {
-        const failureRedirect = `${config.get<string>('authentication.errorRoute')}?google`;
-
         if (profile._json.domain !== config.get<string>('authentication.passport.google.authorizedDomain')) {
-            throw new RedirectException(failureRedirect);
+            throw new UnauthorizedException();
         }
 
         try {
@@ -42,7 +40,7 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, PassportStr
         }
         catch (error) {
             this.errorHandler.captureException(error);
-            throw new RedirectException(failureRedirect);
+            throw new UnauthorizedException();
         }
     }
 }
