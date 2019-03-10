@@ -1,13 +1,13 @@
-import { StoredUser } from './stored-user';
+import { User } from '../entities/user.entity';
 import { SeedUser } from '../interfaces/seed-user.interface';
 
-export class AuthorizedUser implements SeedUser {
+export class StoredUser implements SeedUser {
     identity: string;
     firstName: string;
     lastName: string;
     email: string;
 
-    constructor(user = {} as StoredUser) {
+    constructor(user = {} as User) {
         this.identity = user.identity;
         this.firstName = user.firstName;
         this.lastName = user.lastName;

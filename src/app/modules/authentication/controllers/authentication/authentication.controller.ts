@@ -14,7 +14,7 @@ import * as config from 'config';
 import * as express from 'express';
 import { AuthorizedUser, CreateUserDto, UserService } from '../../../user';
 import { UserLoginDto } from '../../dtos/user-login.dto';
-import { GoogleAuthGaurd } from '../../guards/google-auth.gaurd';
+import { GoogleAuthGuard } from '../../guards/google-auth.guard';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Controller()
@@ -27,12 +27,12 @@ export class AuthenticationController {
     ) {}
 
     @Get('authentication/google')
-    @UseGuards(GoogleAuthGaurd)
+    @UseGuards(GoogleAuthGuard)
     googleOAuth() {
         // initiates the Google OAuth2 login flow
     }
 
-    @UseGuards(GoogleAuthGaurd)
+    @UseGuards(GoogleAuthGuard)
     @Get('auth/google/callback')
     async googleCallback(
         @User() user: AuthorizedUser,

@@ -1,16 +1,15 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { IdentityValidationPipe } from '@teamhive/nestjs-common';
-import { PassportStrategyTokens } from '../../../../passport-strategy-tokens.const';
 import { CreateUserDto } from '../../dtos/create-user.dto';
 import { UserService } from '../../services/user/user.service';
+import { AccessTokenGuard } from '../../../authentication/guards/access-token.guard';
 
 @Controller('v1/users')
-@UseGuards(AuthGuard(PassportStrategyTokens.AccessTokenStrategy))
 export class UserController {
     constructor(
         private readonly usersService: UserService
     ) { }
+
     /**
      * @api {get} /api/v1/users Fetch all
      * @apiVersion 1.0.0
@@ -43,6 +42,7 @@ export class UserController {
      * @apiUse UnauthorizedError
      * @apiUse SQLError
      */
+    @UseGuards(AccessTokenGuard)
     @Get()
     async fetchAll() {
         return await this.usersService.fetchAll();
@@ -78,6 +78,7 @@ export class UserController {
      * @apiUse IdentityValidationError
      * @apiUse SQLError
      */
+    @UseGuards(AccessTokenGuard)
     @Get(':identity')
     async fetchByIdentity(
         @Param('identity', new IdentityValidationPipe()) identity: string
@@ -110,6 +111,7 @@ export class UserController {
      * @apiUse RequestBodyValidationError
      * @apiUse SQLError
      */
+    @UseGuards(AccessTokenGuard)
     @Post()
     async create(
         @Body() createUserDto: CreateUserDto

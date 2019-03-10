@@ -4,8 +4,8 @@ import { ErrorHandler, UnauthorizedException } from '@teamhive/nestjs-common';
 import * as config from 'config';
 import { OAuth2Strategy, Profile } from 'passport-google-oauth';
 import { PassportStrategyTokens } from '../../../passport-strategy-tokens.const';
-import { AuthorizedUser } from '../../user/classes/authorized-user';
 import { UserService } from '../../user/services/user/user.service';
+import { StoredUser } from '../../user/classes/stored-user';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, PassportStrategyTokens.GoogleStrategy) {
@@ -36,7 +36,7 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, PassportStr
                 user = await this.userService.createFromGoogle(profile);
             }
 
-            return new AuthorizedUser(user);
+            return new StoredUser(user);
         }
         catch (error) {
             this.errorHandler.captureException(error);
