@@ -70,7 +70,7 @@
     "devDependencies": {
         "@types/config": "0.0.34",
         "@types/cookie-parser": "^1.4.1",
-        "@types/express": "^4.16.0",
+        "@types/express": "^4.17.0",
         "@types/helmet": "0.0.38",
         "@types/jest": "^23.3.0",
         "@types/jsonwebtoken": "^7.2.8",
