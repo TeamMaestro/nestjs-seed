@@ -81,7 +81,7 @@
         "@types/passport-jwt": "^3.0.1",
         "@types/pg": "^7.4.10",
         "@types/raven": "^2.5.1",
-        "@types/redis": "^2.8.6",
+        "@types/redis": "^2.8.13",
         "@types/sequelize": "^4.27.24",
         "@types/sqlstring": "^2.2.0",
         "apidoc": "^0.17.6",
