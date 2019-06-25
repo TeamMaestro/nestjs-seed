@@ -1,6 +1,7 @@
 import { SqlException } from '@teamhive/nestjs-common';
 import { compare, hash } from 'bcrypt';
-import { BeforeCreate, Column, Model, Sequelize, Table } from 'sequelize-typescript';
+import { BeforeCreate, Column, Model, Table } from 'sequelize-typescript';
+import * as Sequelize from 'sequelize';
 
 @Table({
     tableName: 'seed_user'

@@ -47,7 +47,7 @@
         "@teamhive/honeyflow-express-client": "0.0.3",
         "@teamhive/nestjs-common": "^3.0.1",
         "@teamhive/node-document-service": "^1.0.3",
-        "@teamhive/sequelize-common": "^1.0.0",
+        "@teamhive/sequelize-common": "^2.0.0",
         "bcrypt": "^3.0.6",
         "body-parser": "^1.19.0",
         "class-validator": "^0.9.1",
@@ -68,8 +68,8 @@
         "reflect-metadata": "^0.1.13",
         "request": "^2.88.0",
         "rxjs": "^6.5.2",
-        "sequelize": "^4.41.2",
-        "sequelize-typescript": "0.6.6",
+        "sequelize": "^5.8.10",
+        "sequelize-typescript": "^1.0.0-beta.3",
         "sqlstring": "^2.3.1"
     },
     "devDependencies": {
