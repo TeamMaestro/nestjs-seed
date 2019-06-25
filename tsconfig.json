@@ -4,6 +4,7 @@
         "declaration": false,
         "noImplicitAny": false,
         "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "removeComments": true,
         "noLib": false,
         "emitDecoratorMetadata": true,
@@ -11,7 +12,8 @@
         "target": "es2017",
         "sourceMap": true,
         "allowJs": true,
-        "outDir": "dist"
+        "outDir": "dist",
+        "incremental": true
     },
     "include": [
         "src/**/*"
@@ -21,4 +23,3 @@
         "**/*.spec.ts"
     ]
 }
-
