@@ -26,7 +26,7 @@
         "start:debug": "npm-run-all --parallel watch:project watch:debug",
         "watch:start": "nodemon './dist/index.js' --watch './dist'",
         "watch:project": "chokidar src/ src/**/ -c \"npm run lint && npm run build\"",
-        "watch:debug": "nodemon --inspect-brk=5858 './dist/index.js' --watch './dist'",
+        "watch:debug": "npm run prestart && nodemon --inspect-brk=5858 './index.js' --watch './dist'",
         "migrations": "db-migrate up --config migrations/config.json",
         "migrations:create": "db-migrate create --config migrations/config.json --sql-file --",
         "test": "jest --config=jest.json",
