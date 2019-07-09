@@ -29,13 +29,6 @@ async function bootstrap() {
     try {
         const app = await NestFactory.create(ApplicationModule);
 
-        // Handle uncaught exceptions
-        const coreModule = app.select(CoreModule);
-        const errorHandler = coreModule.get(ErrorHandler);
-
-        NodeEventHandler.handleUnhandledRejection(errorHandler);
-        NodeEventHandler.handleUncaughtException(errorHandler);
-
         // Raven
         if (process.env.DEPLOYMENT) {
             Raven.config(config.get<string>('raven.dsn'), {
@@ -45,6 +38,13 @@ async function bootstrap() {
 
             app.use(Raven['requestHandler']());
         }
+
+        // Handle uncaught exceptions
+        const coreModule = app.select(CoreModule);
+        const errorHandler = coreModule.get(ErrorHandler);
+
+        NodeEventHandler.handleUnhandledRejection(errorHandler);
+        NodeEventHandler.handleUncaughtException(errorHandler);
 
         // Error handlers
         const commonModule = app.select(CommonModule);
