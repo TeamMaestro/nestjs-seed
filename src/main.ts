@@ -1,7 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { ExpressHttpLogger } from '@teamhive/express-http-logger';
 import { HoneyFlowClient } from '@teamhive/honeyflow-express-client';
-import { CookieToBearer, LoggedHttpExceptionFilter, PassiveHttpExceptionFilter, RedirectHttpExceptionFilter, UncaughtExceptionFilter, ValidationPipe } from '@teamhive/nestjs-common';
+import {
+    CookieToBearer,
+    ErrorHandler,
+    LoggedHttpExceptionFilter,
+    PassiveHttpExceptionFilter,
+    RedirectHttpExceptionFilter,
+    UncaughtExceptionFilter,
+    ValidationPipe
+    } from '@teamhive/nestjs-common';
+import NodeEventHandler from '@teamhive/node-event-handler';
 import * as bodyParser from 'body-parser';
 import * as config from 'config';
 import * as cookieParser from 'cookie-parser';
@@ -19,6 +28,13 @@ async function bootstrap() {
 
     try {
         const app = await NestFactory.create(ApplicationModule);
+
+        // Handle uncaught exceptions
+        const coreModule = app.select(CoreModule);
+        const errorHandler = coreModule.get(ErrorHandler);
+
+        NodeEventHandler.handleUnhandledRejection(errorHandler);
+        NodeEventHandler.handleUncaughtException(errorHandler);
 
         // Raven
         if (process.env.DEPLOYMENT) {
@@ -71,7 +87,6 @@ async function bootstrap() {
         }).monitor());
 
         // Endpoint logging
-        const coreModule = app.select(CoreModule);
         app.use(new ExpressHttpLogger(coreModule.get(ApplicationTokens.LoggerToken)).log());
 
         await app.listen(config.get<number>('application.port'));
