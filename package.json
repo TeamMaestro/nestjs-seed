@@ -42,7 +42,7 @@
         "@nestjs/core": "^5.4.1",
         "@nestjs/microservices": "^5.1.0",
         "@nestjs/passport": "^5.1.0",
-        "@nestjs/testing": "^5.4.1",
+        "@nestjs/testing": "^5.7.4",
         "@teamhive/express-http-logger": "0.0.3",
         "@teamhive/honeyflow-express-client": "0.0.3",
         "@teamhive/nestjs-common": "^4.0.0",
