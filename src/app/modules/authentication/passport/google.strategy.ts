@@ -25,7 +25,7 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, PassportStr
     }
 
     async validate(_accessToken: string, _refreshToken: string, profile: Profile) {
-        if (profile._json.domain !== config.get<string>('authentication.passport.google.authorizedDomain')) {
+        if (profile._json.hd !== config.get<string>('authentication.passport.google.authorizedDomain')) {
             throw new UnauthorizedException();
         }
 
