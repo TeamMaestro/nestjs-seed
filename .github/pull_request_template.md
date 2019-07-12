@@ -7,6 +7,7 @@
 - [ ] No secure information in committed yaml files
 - [ ] `package.json` has correct information and dependencies
 - [ ] Documented any complicated or confusing code
+- [ ] Check for outdated migrations and updated their dates to run last
 - [ ] Updated api-docs
 - [ ] No linter errors
 - [ ] `npm run docs` runs successfully
