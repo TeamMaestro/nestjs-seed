@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { ExpressHttpLogger } from '@teamhive/express-http-logger';
 import { HoneyFlowClient } from '@teamhive/honeyflow-express-client';
 import {
@@ -27,7 +28,7 @@ async function bootstrap() {
     const consoleLogger = log4js.getLogger();
 
     try {
-        const app = await NestFactory.create(ApplicationModule);
+        const app = await NestFactory.create<NestExpressApplication>(ApplicationModule);
 
         // Raven
         if (process.env.DEPLOYMENT) {
