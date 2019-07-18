@@ -32,8 +32,8 @@
         "test": "jest --config=jest.json",
         "docs": "rm -Rf docs && apidoc -i src/ -o docs/ && open docs/index.html",
         "build.docs": "rm -Rf docs && apidoc -i src/ -o docs/",
-        "docker.cmd": "run-parts ./scripts && nohup forever dist/server.js",
-        "docker.cmd.local": "sh ./migrations/run-migrations.sh && nohup forever -c \"node --inspect=0.0.0.0:5858\" dist/server.js"
+        "docker.cmd": "run-parts ./scripts && nohup forever index.js",
+        "docker.cmd.local": "sh ./migrations/run-migrations.sh && nohup forever -c \"node --inspect=0.0.0.0:5858\" index.js"
     },
     "main": "index.js",
     "dependencies": {
