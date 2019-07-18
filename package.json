@@ -47,7 +47,7 @@
         "@teamhive/express-http-logger": "0.0.3",
         "@teamhive/honeyflow-express-client": "0.0.3",
         "@teamhive/nestjs-common": "^5.0.0",
-        "@teamhive/node-document-service": "^1.0.3",
+        "@teamhive/node-document-service": "^2.0.2",
         "@teamhive/node-event-handler": "^1.0.0",
         "@teamhive/sequelize-common": "^3.2.0",
         "bcrypt": "^3.0.6",
