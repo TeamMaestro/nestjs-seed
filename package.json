@@ -38,7 +38,7 @@
     "main": "index.js",
     "dependencies": {
         "@local/keys": "file:./keys",
-        "@nestjs/common": "^6.5.2",
+        "@nestjs/common": "^6.5.3",
         "@nestjs/core": "^6.5.2",
         "@nestjs/microservices": "^6.5.2",
         "@nestjs/passport": "^6.1.0",
