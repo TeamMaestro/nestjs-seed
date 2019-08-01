@@ -93,7 +93,7 @@
         "@types/sqlstring": "^2.2.1",
         "@types/validator": "^10.11.1",
         "apidoc": "^0.17.7",
-        "chokidar": "^3.0.1",
+        "chokidar": "^3.0.2",
         "chokidar-cli": "^1.2.2",
         "jest": "^24.8.0",
         "nodemon": "^1.19.1",
