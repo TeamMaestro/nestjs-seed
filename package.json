@@ -57,7 +57,7 @@
         "cookie-parser": "^1.4.4",
         "db-migrate": "^0.11.6",
         "db-migrate-pg": "^1.0.0",
-        "helmet": "^3.18.0",
+        "helmet": "^3.20.1",
         "js-yaml": "^3.13.1",
         "jsonwebtoken": "^8.5.1",
         "log4js": "^4.5.1",
