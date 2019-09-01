@@ -86,7 +86,7 @@
         "@types/passport": "^1.0.0",
         "@types/passport-google-oauth": "^1.0.41",
         "@types/passport-jwt": "^3.0.1",
-        "@types/pg": "^7.4.14",
+        "@types/pg": "^7.11.0",
         "@types/raven": "^2.5.3",
         "@types/redis": "^2.8.13",
         "@types/sequelize": "^4.27.24",
